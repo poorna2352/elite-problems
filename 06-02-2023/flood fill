@@ -1,0 +1,40 @@
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        Queue<pair> q=new LinkedList<>();
+        q.add(new pair(sr,sc));
+        int vs[][] = new int[image.length][image[0].length];
+        for(int i=0;i<image.length;i++){
+            for(int j=0;j<image[0].length;j++){
+                vs[i][j] = 0;
+            }
+        }
+        vs[sr][sc] = 1;
+        int initial=image[sr][sc];
+        image[sr][sc]=color;
+        int[] offsetr={-1,0,1,0};
+        int[] offsetc={0,1,0,-1};
+        while(!q.isEmpty()){
+            pair curr=q.poll();
+            int r=curr.row;
+            int c=curr.col;
+            for(int i=0;i<4;i++){
+                int nextr=r+offsetr[i];
+                int nextc=c+offsetc[i];
+                if(nextr<0||nextr>=image.length||nextc<0||nextc>=image[0].length) continue;
+                if(image[nextr][nextc]==initial&&vs[nextr][nextc]==0){
+                    q.add(new pair(nextr,nextc));
+                    vs[nextr][nextc]=1;
+                    image[nextr][nextc]=color;
+                }
+            }
+        }
+        return image;
+    }
+    class pair{
+        int row,col;
+        pair(int row,int col){
+            this.row=row;
+            this.col=col;
+        }
+    }
+}
