@@ -1,0 +1,41 @@
+class Solution {
+    int[] offsetr={-1,0,1,0};
+    int[] offsetc={0,1,0,-1};
+    public boolean containsCycle(char[][] grid) {
+        int n=grid.length;
+        int m=grid[0].length;
+        boolean[][] visited=new boolean[n][m];
+        boolean flag=false;;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                 if(!visited[i][j]){
+                     flag=flag||dfs(grid,visited,i,j,-1,-1,grid[i][j]);
+                  }
+            }
+        }
+        return flag;
+    }
+    public boolean dfs(char[][] grid,boolean[][] visited,int crow,int ccol,int parentr,int parentc,char ref){
+        visited[crow][ccol]=true;
+        int n=grid.length;
+        int m=grid[0].length;
+        boolean res=false;
+        for(int i=0;i<4;++i){
+            int nextr=crow+offsetr[i];
+            int nextc=ccol+offsetc[i];
+            if(nextr>=0&&nextr<n&&nextc>=0&&nextc<m){
+                if(!(nextr==parentr&&nextc==parentc)){
+                    if(grid[nextr][nextc]==ref){
+                        if(visited[nextr][nextc]){
+                            return true;
+                        }
+                        else{
+                            res=res||dfs(grid,visited,nextr,nextc,crow,ccol,ref);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+}
